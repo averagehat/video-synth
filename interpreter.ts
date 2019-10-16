@@ -1,5 +1,4 @@
 
-
 import { Cell, Pos } from './gameoflife';
 export { makeNewImg  }
 const oDist = (a: Pos, b: Pos): number => (a.x - b.x)^2 + (a.y - b.y)^2

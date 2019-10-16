@@ -2,12 +2,6 @@
 import { stepState, initState } from './gameoflife';
 import { makeNewImg } from './interpreter';
 
-      //    for (let i = 0; i < colNalpha.length; i++) {
-      //        newFrame[red+i] = 255; // colNalpha[i]; 
-      // }
-      //  });
-      //  return newFrame;
-
 let processor = {
     timerCallback: function() {
       if (this.video.paused || this.video.ended) {
@@ -20,10 +14,6 @@ let processor = {
         }, 0);
     },
   
-//      #c2 {/getimage
-//        background-image: url(media/foo.png);
-//        background-repeat: no-repeat;
-//      }
     doLoad: function() {
       this.video = document.getElementById("video");
       this.c1 = document.getElementById("c1");
@@ -50,21 +40,7 @@ let processor = {
           makeNewImg(frame, this.state.populated, this.state.origin, this.width);
           this.state.frameCount++;
       }
-        //  const newImg = 
-        // frame.data = newImg;   
-        //
-        // state = newLState;
       this.ctx2.putImageData(frame, 0, 0); 
-//      // this.ctx1.canvas.crossOrigin = "Anonymous";
-//      let l = frame.data.length / 4; 
-//      for (let i = 0; i < l; i++) {
-//        let r = frame.data[i * 4 + 0];
-//        let g = frame.data[i * 4 + 1];
-//        let b = frame.data[i * 4 + 2];
-//        if (g > 100 && r > 100 && b < 43)
-//          frame.data[i * 4 + 1] = 0;
-//          frame.data[i * 4 + 2] = 0;
-//      }
       return;
     }
   };

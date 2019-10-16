@@ -59,28 +59,11 @@ const performMove = (board: Board, cell: Cell<number>): Board => {
     return newBoard; 
 }
 
-// could use distance from the center instead of generation
-// age is max(generation) - generation
-// want to compute max-dist actually
+// could use distance from the center instead of generation age is max(generation) - generation
 
-
-//interface Array<T> {
-//    flat(): Array<T>;
-//    flatMap(func: (x: T) => T): Array<T>;
-//}
-type Row = Array<Cell<number>>
 const stepState = (state: LState<number>): LState<number> => {
   const newBoard: Board = state.populated.reduce( (board: Board, cell: Cell<number>) => performMove(board, cell), state.board);
   const newPopulated = newBoard.flat().filter( (x: Cell<number>) => x.data);
-    //  const newPopulated: Array<SmartCell<number>> = entries.flatMap(e =>
-    //      Array.from(e[1].entries()).map(e2 => {
-    //          const [x, y, cell] = [e[0], e2[0], e2[1]];
-    //          return cell.data ? {x: x, y: y, data: cell.data} : null
-    //      })).filter(x => x);
-    // const newLState = {...state, board: newBoard, populated: newPopulated };
   const newLState = { frameCount: state.frameCount, origin: state.origin, center: state.center, board: newBoard, populated: newPopulated };
   return newLState;
 }
-// could just store each new births in a queue
-// then add each moved one to it
-//
