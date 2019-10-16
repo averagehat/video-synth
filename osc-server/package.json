@@ -7,5 +7,8 @@
     "express": "^4.16.4",
     "isomorphic-ws": "^4.0.1",
     "ws": "^7.1.2"
+  },
+  "devDependencies": {
+    "timbre": "^14.11.25"
   }
 }
