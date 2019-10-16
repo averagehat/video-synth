@@ -14,7 +14,7 @@ const initListen = (location: { host: string}, sharedState: any ) => {
         ws.onmessage = function(event) {
             let data = JSON.parse(event.data); 
             data.frameIn = sharedState.currentFrame;
-            console.log('onmessage', data);
+            //console.log('onmessage', data);
             sharedState.messages.push(data);
             sharedState.newest = data;
         };
