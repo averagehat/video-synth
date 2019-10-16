@@ -25,7 +25,7 @@ let processor = {
           self.width = self.video.videoWidth / 2;
           self.height = self.video.videoHeight / 2;
           self.state = initState(self.width, self.height);
-          self.messageState = { messages: []};
+          self.messageState = { currentFrame: 0, messages: []};
           initListen({ host: URL }, self.messageState);
           self.timerCallback();
         }, false);
@@ -43,10 +43,13 @@ let processor = {
 
         if (this.state) {
           if ((this.state.frameCount % SKIP_FRAMES) == 0) { 
-             this.state = stepState(this.state);
+              this.state = stepState(this.state);
+              console.log('pops', this.state.populated);
+              console.log('msg', this.messageState);
         }
-          makeNewImg(frame, this.state.populated, this.state.origin, this.width, this.messageState.messages[0]);
-          this.state.frameCount++;
+            makeNewImg(frame, this.state.populated, this.state.origin, this.width,  SKIP_FRAMES, this.messageState.newest, this.messageState.messages); // this.messageState.messages[0]);
+            this.state.frameCount++;
+            this.messageState.currentFrame = this.state.frameCount;
       }
       this.ctx2.putImageData(frame, 0, 0); 
       return;
