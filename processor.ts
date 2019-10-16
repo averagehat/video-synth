@@ -1,7 +1,7 @@
 
 import { stepState, initState } from './gameoflife';
-import { makeNewImg } from './interpreter';
-
+import { makeNewImg, initListen, Message } from './interpreter';
+const URL = "localhost:8080/"
 let processor = {
     timerCallback: function() {
       if (this.video.paused || this.video.ended) {
@@ -25,6 +25,8 @@ let processor = {
           self.width = self.video.videoWidth / 2;
           self.height = self.video.videoHeight / 2;
           self.state = initState(self.width, self.height);
+          self.messageState = { messages: []};
+          initListen({ host: URL }, self.messageState);
           self.timerCallback();
         }, false);
     },
@@ -32,12 +34,18 @@ let processor = {
     computeFrame: function() {
       this.ctx1.drawImage(this.video, 0, 0, this.width, this.height);
         let frame = this.ctx1.getImageData(0, 0, this.width, this.height);
-      const SKIP_FRAMES = 10;
+        const SKIP_FRAMES = 10;
+        // let msg: Message;
+        // let msgs = [];
+        //        while ((msg = this.messageState.messages.shift()) !== undefined) {
+        //            // process backed-up messages 
+        //        }
+
         if (this.state) {
           if ((this.state.frameCount % SKIP_FRAMES) == 0) { 
              this.state = stepState(this.state);
         }
-          makeNewImg(frame, this.state.populated, this.state.origin, this.width);
+          makeNewImg(frame, this.state.populated, this.state.origin, this.width, this.messageState.messages[0]);
           this.state.frameCount++;
       }
       this.ctx2.putImageData(frame, 0, 0); 
