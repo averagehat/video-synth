@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script src="https://underscorejs.org/underscore-min.js"></script>
+		<title>three.js webgl - shader [Monjori]</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				color: #ffffff;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
+
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			#info {
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+			}
+
+			a {
+
+				color: #ffffff;
+			}
+
+			#oldie a { color:#da0 }
+		</style>
+	</head>
+	<body>
+
+		<div id="container"></div>
+		<div id="info"><a href="http://threejs.org" target="_blank">three.js</a> - shader demo. featuring <a href="http://www.pouet.net/prod.php?which=52761" target="_blank">Monjori by Mic</a></div>
+
+<script src="https://threejs.org/build/three.js"></script>
+
+
+		<script id="vertexShader" type="x-shader/x-vertex">
+		varying vec2 vUv;
+
+			void main()	{
+				vUv = uv;
+				gl_Position = vec4( position, 1.0 );
+
+			}
+
+		</script>
+
+		<script>
+			var container, camera, scene, renderer, uniforms, material, mesh;
+			var mouseX = 0, mouseY = 0, lat = 0, lon = 0, phy = 0, theta = 0;
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+				var loader = new THREE.FileLoader();
+			// 	async function getFrag () {
+			// 		let x;
+			// 	  await loader.load('./stripes.frag', (data) => {
+			// 			x = data;
+			// 		},
+			// 		console.log, console.log)
+			// 		return x;
+			// 	}
+      const stripeCount = 8;
+			let state;
+				loader.load('./stripes.frag', (fragText) => {
+			init(fragText);
+			animate();
+		});
+			function init(fragText) {
+
+				container = document.getElementById( 'container' );
+				camera = new THREE.Camera();
+				camera.position.z = 1;
+				scene = new THREE.Scene();
+let t_cx = 512;
+let t_cy = 512;
+let t_data = new Uint8Array(4 * t_cx * t_cy);
+let stripeColors = _.shuffle(_.range(0, 255, 255/stripeCount));
+console.log(stripeColors);
+const interpolate = (b, e, i, max) => b + ((i/max) * (e-b))
+
+for ( let i = 0; i < t_cx; i ++ ) {
+    for ( let j = 0; j < t_cy; j ++ ) {
+        let id = j*t_cx*4 + i*4;
+				let colorIndex = Math.floor((i / (t_cx)) * 10)
+        let r = stripeColors[colorIndex];
+        t_data[id + 0] = r;
+      //  t_data[id + 0] = r * 255; //  t_data[id + 1] = g * 255; //  t_data[id + 2] = b * 255; t_data[id + 3] = 255;
+
+    }
+}
+var texture = new THREE.DataTexture( t_data, t_cx, t_cy, THREE.RGBAFormat );
+var texture2 = new THREE.DataTexture( new Uint8Array(_.range(0, stripeCount)), 1, stripeCount, THREE.RGBAFormat);
+texture.needsUpdate = true;
+console.log(texture);
+
+				uniforms = {
+					time: { type: "f", value: 1.0 },
+					resolution: { type: "v2", value: new THREE.Vector2() },
+					texture1 : { type: 't', value: texture, texture: texture},
+					texture2 : { type: 't', value: texture2}
+				};
+// document.getElementById( 'fragmentShader' ).textContent
+				material = new THREE.ShaderMaterial( {
+					uniforms: uniforms,
+					vertexShader: document.getElementById( 'vertexShader' ).textContent,
+					fragmentShader: fragText
+
+				} );
+
+				mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material);
+				scene.add( mesh );
+
+				renderer = new THREE.WebGLRenderer();
+				container.appendChild( renderer.domElement );
+
+				onWindowResize();
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function onWindowResize( event ) {
+
+				uniforms.resolution.value.x = window.innerWidth;
+				uniforms.resolution.value.y = window.innerHeight;
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				render();
+
+			}
+
+			function render() {
+let t_cx = 512;
+let t_cy = 512;
+let t_data = new Uint8Array(4 * t_cx * t_cy);
+let stripeColors = _.shuffle(_.range(0, 255, 255/stripeCount));
+const interpolate = (b, e, i, max) => b + ((i/max) * (e-b))
+
+for ( let i = 0; i < t_cx; i ++ ) {
+    for ( let j = 0; j < t_cy; j ++ ) {
+        let id = j*t_cx*4 + i*4;
+				let colorIndex = Math.floor((i / (t_cx)) * 10)
+        let r = stripeColors[colorIndex];
+        t_data[id + 0] = r;
+      //  t_data[id + 0] = r * 255; //  t_data[id + 1] = g * 255; //  t_data[id + 2] = b * 255; t_data[id + 3] = 255;
+
+    }
+}
+var texture = new THREE.DataTexture( t_data, t_cx, t_cy, THREE.RGBAFormat );
+
+				uniforms.time.value += 0.05;
+				uniforms.texture1.value = texture;
+				renderer.render( scene, camera );
+
+			}
+		</script>
+
+	</body>
+</html>
