@@ -6,6 +6,9 @@
 1
 >>> s = 'cv2.blur(frame, (23, 23))'
 >>> r.publish('rpi-input', json.dumps( {'eval' : s } )) 
+ r.publish('rpi-input', json.dumps( {'eval' : f'cv2.circle(frame, ({x}, {y}), {radius}, (255, 0, 0), 2)' } ))
+
+https://www.geeksforgeeks.org/circle-detection-using-opencv-python/
 
 https://realpython.com/face-detection-in-python-using-a-webcam/
 
@@ -17,7 +20,7 @@ https://docs.opencv.org/3.4/d3/dc1/tutorial_basic_linear_transform.html
 
 https://github.com/andymccurdy/redis-py
 
-
+https://github.com/opencv/opencv/blob/master/samples/python/video_threaded.py
  python video_threaded.py 0 2>/dev/null 
         between frames check for new redis posts
         pip install redis
