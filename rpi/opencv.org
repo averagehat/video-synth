@@ -1,0 +1,24 @@
+       import redis
+>>> r = redis.Redis(host='localhost', port=6379, db=0)
+>>> r.publish('rpi-input', json.dumps( {'flip' : True } ))
+1
+>>> r.publish('rpi-input', json.dumps( {'graytoggle' : True } ))
+1
+>>> s = 'cv2.blur(frame, (23, 23))'
+>>> r.publish('rpi-input', json.dumps( {'eval' : s } )) 
+
+https://realpython.com/face-detection-in-python-using-a-webcam/
+
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_gui/py_video_display/py_video_display.html
+
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html
+
+https://docs.opencv.org/3.4/d3/dc1/tutorial_basic_linear_transform.html
+
+https://github.com/andymccurdy/redis-py
+
+
+ python video_threaded.py 0 2>/dev/null 
+        between frames check for new redis posts
+        pip install redis
+        redis-server /opt/local/etc/redis.conf
