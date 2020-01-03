@@ -1,0 +1,41 @@
+
+k* Redis
+import redis
+>>> r = redis.Redis(host='localhost', port=6379, db=0)
+>>> r.publish('rpi-input', json.dumps( {'flip' : True } ))
+1
+>>> r.publish('rpi-input', json.dumps( {'graytoggle' : True } ))
+1
+>>> s = 'cv2.blur(frame, (23, 23))'
+>>> r.publish('rpi-input', json.dumps( {'eval' : s } )) 
+ r.publish('rpi-input', json.dumps( {'eval' : f'cv2.circle(frame, ({x}, {y}), {radius}, (255, 0, 0), 2)' } ))
+
+
+* Smoothing
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html
+* Colors
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html#converting-colorspaces
+already working: https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html
+https://www.quora.com/How-do-I-swap-colors-in-an-image-using-OpenCV-and-Python
+* Shifting
+https://stackoverflow.com/questions/19068085/shift-image-content-with-opencv
+* Other
+https://www.geeksforgeeks.org/circle-detection-using-opencv-python/
+
+https://realpython.com/face-detection-in-python-using-a-webcam/
+
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_gui/py_video_display/py_video_display.html
+
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html
+
+https://docs.opencv.org/3.4/d3/dc1/tutorial_basic_linear_transform.html
+
+https://github.com/andymccurdy/redis-py
+
+https://github.com/opencv/opencv/blob/master/samples/python/video_threaded.py
+* Setup
+ python video_threaded.py 0 2>/dev/null 
+        between frames check for new redis posts
+        pip install redis
+        redis-server /opt/local/etc/redis.conf
+** TODO add the LD_PATH etc.
